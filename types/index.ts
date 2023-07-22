@@ -7,3 +7,8 @@ export interface CustomButtonProps{
     MouseEventHandler<HTMLButtonElement>;
     btnType?: "button"|"submit"
 }
+
+export interface SearchListProps{
+    list:string,
+    SetList:(list:string)=>void
+}
