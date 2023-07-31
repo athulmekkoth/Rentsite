@@ -1,7 +1,11 @@
 import Image from 'next/image'
 import { Hero } from '../components/index'
-import {CustomFilter,SearchBar } from '@/components'
-export default function Home() {
+import {Dfetch} from '@/utils'
+import {CustomFilter,SearchBar,BikeCard} from '@/components'
+
+export default async function Home() {
+  const allcars=await Dfetch()
+const empty=!Array.isArray(allcars) || allcars.length<1 || !allcars
   return (
     <main className="overflow-hidden">
       <Hero />
@@ -17,6 +21,23 @@ export default function Home() {
    <CustomFilter title="year" />
 </div>
 </div>
+
+{!empty ?(
+  <section>
+ <div className="grid 2xl:grid-cols-4 xl:grid-cols-3 md:grid-cols-2 grid-cols-1 w-full gap-8 pt-14">
+  {allcars.map((item)=>(
+    <BikeCard item={item} />
+  ))}
+  </div>
+  </section>
+):(
+  <section>
+    we dont
+    <p>{allcars?.message}</p>
+  </section>
+)}
+
+
       </div>
    
     </main>
