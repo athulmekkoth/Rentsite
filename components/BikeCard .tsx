@@ -1,26 +1,31 @@
 'use client';
 import React, { useState } from 'react';
-import { Bikeprops } from '@/types';
-import { calculateCarRent } from '@/utils';
+import { Carprops } from '@/types';
+import { calculateCarRent, generateCarImageUrl } from '@/utils';
 import Image from 'next/image';
 import CustomButton from './CustomButton';
 import Bikedetails from './Bikedetails';
-interface Bikerprops {
-  item: Bikeprops;
+interface Carsprops {
+  item: Carprops ;
 }
 
-const BikeCard = ({ item }: Bikerprops) => {
+const BikeCard = ({ item}: Carsprops) => {
 
     const[isOpen,SetOpen]=useState(false)
-  const { make, model, year, displacement, power, torque, engine ,clutch} = item;
-console.log(item)
-  // Extract the CC from the displacement string and convert it to a number
-  const ccPattern = /(\d+(?:\.\d+)?) ccm/;
-  const match = displacement.match(ccPattern);
-  const cc = match && match[1] ? parseFloat(match[1]) : 0;
+  const {  city_mpg,
+    
+    cylinders,
+    displacement,
+    drive,
+    fuel_type,
+    highway_mpg,
+    make,
+    model,
+    transmission,
+    year} = item;
 
   // Calculate the car rent based on the CC (as a number) and year
-  const rent = calculateCarRent(cc, year);
+  const rent = calculateCarRent(city_mpg,year);
 
   return (
     <div className="flex flex-col p-6 justify-center items-start text-black-100 bg-primary-blue-100 hover:bg-white hover:shadow-md rounded-3xl">
@@ -37,22 +42,22 @@ console.log(item)
         </p>
       </div>
       <div className='relative w-ful h-40 my-3 object-contain'>
-        <Image src="/home.jpg" alt="s"  width={50} height={50} />
+        <Image src={generateCarImageUrl(item)} alt="s"  width={50} height={50} />
 
       </div>
       <div className='relative flex w-full mt-2'>
         <div className='flex group-hover:invisible w-full justify-between'>
 <div className='flex flex-col justify-center  items-center gap-2'>
 <Image src='/hlogo.svg'  alt='stree' width={20} height={20}/>
-<p className='text-[14px]'>{clutch}</p>
+<p className='text-[14px]'>{ fuel_type}</p>
 </div>
 <div className='flex flex-col justify-center  items-center gap-2'>
 <Image src='/hlogo.svg'  alt='stree' width={20} height={20}/>
-<p className='text-[14px]'>{power}</p>
+<p className='text-[14px]'>{highway_mpg}</p>
 </div>
 <div className='flex flex-col justify-center  items-center gap-2'>
 <Image src='/hlogo.svg'  alt='stree' width={20} height={20}/>
-<p className='text-[14px]'>{year}</p>
+<p className='text-[14px]'>{transmission}</p>
 </div>
         </div>
         <div className=' group-hover:flex absolute bottom-0 w-full z-10'>
@@ -65,7 +70,7 @@ handleClick={()=>SetOpen     (true)}
 />
         </div>
       </div>
-      <Bikedetails  isOpen={isOpen}  bike={Bikedetails}  closeModal={()=>{SetOpen(false)}}  />
+      <Bikedetails  isOpen={isOpen} car={item} closeModal={()=>{SetOpen(false)}}  />
     </div>
   );
 };

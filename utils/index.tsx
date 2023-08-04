@@ -1,11 +1,11 @@
-
+import { Carprops } from "@/types";
 export async function Dfetch(){
     const headers={
-        'X-RapidAPI-Key': 'e6d7607d6bmsh5910a0c853ea4edp189cfajsn28ba2c0b2752',
-		'X-RapidAPI-Host': 'motorcycles-by-api-ninjas.p.rapidapi.com'
+      'X-RapidAPI-Key': 'e6d7607d6bmsh5910a0c853ea4edp189cfajsn28ba2c0b2752',
+      'X-RapidAPI-Host': 'cars-by-api-ninjas.p.rapidapi.com'
 
     }
-    const url = 'https://motorcycles-by-api-ninjas.p.rapidapi.com/v1/motorcycles?make=Kawasaki&model=Ninja';
+    const url = 'https://cars-by-api-ninjas.p.rapidapi.com/v1/cars?model=corolla';
    const response= await fetch(url,{
     headers:headers
    })
@@ -13,19 +13,33 @@ export async function Dfetch(){
    return result
 
 }
-export const calculateCarRent = (displacement: number, year: number) => {
-    const basePricePerDay = 50; // Base rental price per day in dollars
-    const displacementFactor = 0.1; // Additional rate per mile driven
-    const ageFactor = 0.05; // Additional rate per year of vehicle age
-  
-    // Calculate additional rate based on displacement and age
-    const displacementRate = displacement* displacementFactor;
-    const ageRate = (new Date().getFullYear() - year) * ageFactor;
-  
-    // Calculate total rental rate per day
-    const rentalRatePerDay = basePricePerDay + displacementRate + ageRate;
-  
-    return rentalRatePerDay.toFixed(0);
-  };
-  
-  
+
+export const calculateCarRent = (city_mpg: number, year: number) => {
+  const basePricePerDay = 50; // Base rental price per day in dollars
+  const mileageFactor = 0.1; // Additional rate per mile driven
+  const ageFactor = 0.05; // Additional rate per year of vehicle age
+
+  // Calculate additional rate based on mileage and age
+  const mileageRate = city_mpg * mileageFactor;
+  const ageRate = (new Date().getFullYear() - year) * ageFactor;
+
+  // Calculate total rental rate per day
+  const rentalRatePerDay = basePricePerDay + mileageRate + ageRate;
+
+  return rentalRatePerDay.toFixed(0);
+};
+
+export const generateCarImageUrl = (car: Carprops, angle?: string) => {
+  const url = new URL("https://cdn.imagin.studio/getimage");
+  const { make, model, year } = car;
+
+  url.searchParams.append('customer', process.env.NEXT_PUBLIC_IMAGIN_API_KEY || 'hrjavascript-mastery');
+  url.searchParams.append('make', make);
+  url.searchParams.append('modelFamily', model.split(" ")[0]);
+  url.searchParams.append('zoomType', 'fullscreen');
+  url.searchParams.append('modelYear', `${year}`);
+  // url.searchParams.append('zoomLevel', zoomLevel);
+  url.searchParams.append('angle', `${angle}`);
+
+  return `${url}`;
+} 
