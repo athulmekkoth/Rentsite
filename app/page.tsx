@@ -2,9 +2,17 @@ import Image from 'next/image'
 import { Hero } from '../components/index'
 import {Dfetch} from '@/utils'
 import {CustomFilter,SearchBar,BikeCard} from '@/components'
+import { yearsOfProduction,fuels } from '@/constants'
+export default async function Home({searchParams}) {
+  const allcars=await Dfetch({manufactured:searchParams.list || "",
+  model:searchParams.model || "",
+year:searchParams.year || 2022,
+fuel:searchParams.fuel || "",
 
-export default async function Home() {
-  const allcars=await Dfetch()
+limit:searchParams.limit || 10
+
+
+})
 const empty=!Array.isArray(allcars) || allcars.length<1 || !allcars
   return (
     <main className="overflow-hidden">
@@ -17,8 +25,8 @@ const empty=!Array.isArray(allcars) || allcars.length<1 || !allcars
 <div className='mt-12 w-full flex-between items-center flex-wrap gap-5'>
 <SearchBar />
 <div className="flex justify-start flex-wrap items-center gap-2">
-   <CustomFilter title="fuel" />
-   <CustomFilter title="year" />
+   <CustomFilter title="fuel"  options={fuels}/>
+   <CustomFilter title="year" options={yearsOfProduction} />
 </div>
 </div>
 

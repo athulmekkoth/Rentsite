@@ -4,7 +4,8 @@ import { useState } from 'react'
 import SearchManufacturer from './SearchManufacturer'
 
 import Image from 'next/image'
-import { useRouter } from 'next/router'
+import { useRouter } from "next/navigation"
+
 
 const SearchButton=({otherclasses}:{otherclasses:string})=>(    <button type='submit' className={`-ml-3 z-10 ${otherclasses}`}>
 <Image
@@ -21,7 +22,9 @@ className='object-contain'
 const SearchBar = () => {
   const[list,SetList]=useState("");
   const[model,SetModel]=useState("")
-  const router=useRouter()
+
+  const router = useRouter();
+
   const handleSearch=(e:React.FormEvent<HTMLFormElement>)=>{
     e.preventDefault();
      if(list === "" && model === "") {
@@ -48,7 +51,8 @@ else{
   search.delete('list')
 }
 const newpth=`${window.location.pathname}?${search.toString()}`
-Router.push(newpth)
+
+    router.push(newpth);
   }
   return (
     <form className='flex items-center justify-start max-sm:flex-col w-full relative max-sm:gap-4 max-w-3xl' onSubmit={handleSearch}>
