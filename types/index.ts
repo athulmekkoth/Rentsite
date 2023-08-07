@@ -45,3 +45,7 @@ export interface CustomProps{
     title:string,
     options:Optionprops[]
 }
+export interface Pageprops{
+    pageNumber:number,
+    isNext:boolean
+}

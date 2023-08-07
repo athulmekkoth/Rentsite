@@ -6,6 +6,8 @@ import  CustomFilter  from "./CustomFilter";
 import SearchManufacturer from "./SearchManufacturer";
 import BikeCard from "./BikeCard ";
 import Bikedetails from "./Bikedetails";
+import ShowMore from "./ShowMore";
+
 export{
     Hero,
     Navbar,
@@ -14,5 +16,6 @@ export{
     SearchBar,
     SearchManufacturer,
     BikeCard,
-    Bikedetails
+    Bikedetails,
+    ShowMore
 }

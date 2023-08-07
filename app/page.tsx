@@ -1,6 +1,7 @@
 import Image from 'next/image'
-import { Hero } from '../components/index'
+import { Hero, ShowMore } from '../components/index'
 import {Dfetch} from '@/utils'
+
 import {CustomFilter,SearchBar,BikeCard} from '@/components'
 import { yearsOfProduction,fuels } from '@/constants'
 export default async function Home({searchParams}) {
@@ -28,15 +29,19 @@ const empty=!Array.isArray(allcars) || allcars.length<1 || !allcars
    <CustomFilter title="fuel"  options={fuels}/>
    <CustomFilter title="year" options={yearsOfProduction} />
 </div>
-</div>
+</div> 
 
 {!empty ?(
   <section>
  <div className="grid 2xl:grid-cols-4 xl:grid-cols-3 md:grid-cols-2 grid-cols-1 w-full gap-8 pt-14">
   {allcars.map((item)=>(
     <BikeCard item={item} />
-  ))}
+  ))} 
   </div>
+  <ShowMore
+  pageNumber={(searchParams.limit || 10)/10}
+ isNext={(searchParams.limit || 10)>allcars.length}
+ />
   </section>
 ):(
   <section>
