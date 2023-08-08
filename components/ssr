@@ -5,43 +5,16 @@ import {Dfetch} from '@/utils'
 
 import {CustomFilter,SearchBar,BikeCard} from '@/components'
 import { yearsOfProduction,fuels } from '@/constants'
-import { useEffect, useState } from 'react'
-export default  function Home() {
-const[allcars,setAllCars]=useState([])
-const[loading,setLoading]=useState(true)
-//search
-const[manufacture,setManufacturer]=useState("")
-const[model,setModel]=useState("")
-//filter
- const[fuel,setFuel]=useState("")
- const[year,setYear]=useState(2022)
- const[limit,setLimit]=useState(10)
-const getcars=async()=>{  
-  try{
-  const allcars=await Dfetch({manufactured:manufacture || "",
-  model:model || "",
-year:year || 2022,
-fuel:fuel || "",
+export default async function Home({searchParams}) {
+  const allcars=await Dfetch({manufactured:searchParams.list || "",
+  model:searchParams.model || "",
+year:searchParams.year || 2022,
+fuel:searchParams.fuel || "",
 
-limit:limit || 10
+limit:searchParams.limit || 10
 
 
-  })
-}
-catch(err)
-{
-  console.log(err)
-}
-finally{
-  setLoading(false)
-}
-}
-useEffect(()=>{
- 
-  getcars()
-
-},[fuel,year,limit,manufactures.model])
-
+})
 const empty=!Array.isArray(allcars) || allcars.length<1 || !allcars
   return (
     <main className="overflow-hidden">
