@@ -19,47 +19,30 @@ className='object-contain'
   </button>
 )
 
-const SearchBar = () => {
-  const[list,SetList]=useState("");
-  const[model,SetModel]=useState("")
+const SearchBar = ({setManufacturer,setModel}) => {
+  const[slist,SetsList]=useState("");
+  const[smodel,SetsModel]=useState("")
 
   const router = useRouter();
-
+ 
   const handleSearch=(e:React.FormEvent<HTMLFormElement>)=>{
     e.preventDefault();
-     if(list === "" && model === "") {
-      return alert("erro")
+     if(slist === "" && smodel === "") {
+      return alert("please fill set")
      }
-     updatesearch(model,list)
+     setModel(SetsModel)
+     setManufacturer(slist)
 
-
+ 
 
   }
-  const updatesearch=(model:string,manufacture:string)=>{
-    const search=new URLSearchParams(window.location.search)
-if(model)
-{
-  search.set('model',model)
-
-}else{
-  search.delete('model')
-}
-if(manufacture){
-  search.set('list',list)
-}
-else{
-  search.delete('list')
-}
-const newpth=`${window.location.pathname}?${search.toString()}`
-
-    router.push(newpth);
-  }
+  
   return (
     <form className='flex items-center justify-start max-sm:flex-col w-full relative max-sm:gap-4 max-w-3xl' onSubmit={handleSearch}>
       <div className='flex-1 max-sm:w-full flex justify-start items-center relative'>
         <SearchManufacturer
-          manufacturer={list}
-          setManuFacturer={SetList}
+        selected={slist}
+          setSelected ={SetsList}
         />
         <SearchButton otherClasses='sm:hidden' />
       </div>
@@ -74,8 +57,8 @@ const newpth=`${window.location.pathname}?${search.toString()}`
         <input
           type='text'
           name='model'
-          value={model}
-          onChange={(e) => SetModel(e.target.value)}
+          value={smodel}
+          onChange={(e) => SetsModel(e.target.value)}
           placeholder='Tiguan...'
           className='searchbar__input'
         />

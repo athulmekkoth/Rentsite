@@ -7,22 +7,19 @@ import { CustomProps } from '@/types'
 import { Listbox,Transition } from '@headlessui/react'
 import Image from 'next/image'
 import { UpdateParams } from '@/utils'
-export const CustomFilter = ({title,options}:CustomProps) => {
-  const router=useRouter()
+export const CustomFilter = ({title,options,setFilter}:CustomProps) => {
+ 
   const[selected,setSelected]=useState(options[0]);
-  const handleUpdateParams=(e:{title:string,value:string})=>{
-   const newPathname=UpdateParams(title,e.value.toLowerCase())
-   
-    router.push(newPathname)
-  }
+
   return (
     <div>
        
       <Listbox value={selected}
       onChange={(e)=>{setSelected(e)
-      handleUpdateParams(e)
+      setSelected(e)
+      setFilter(e.value)
     }}
-
+   
       >
         <div className='relative w-fit z-10'>
           <Listbox.Button  className="relative w-full min-w-[127px] flex justify-between items-center cursor-default rounded-lg bg-white py-2 px-3 text-left shadow-md sm:text-sm border">
